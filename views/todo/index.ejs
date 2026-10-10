@@ -53,13 +53,7 @@
  
     </div>
 
-    <!-- Search -->
-    <div class="mb-6">
-        <input
-            type="text"
-            placeholder="Cari todo..."
-            class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
-    </div>
+
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-xl border border-gray-200">
@@ -590,7 +584,7 @@ async function requestEdit(taskname,description,deadline,priority,status,id) {
 
  
     if (response.ok) {
-        alert("data berhasil di masukkan")
+        alert("data berhasil di perbarui")
         Form.reset();
         location.reload();
 
