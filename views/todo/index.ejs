@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/glasseffect.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
+</head>
+<body>
+
+    <nav class="bg-white w-full">
+    <div class="p-6 flex gap-3 flex-col">
+
+        <!-- Logo -->
+        <a href="/" class="text-2xl font-bold text-blue-600 ">
+            Todo
+        </a>
+
+        <!-- Menu -->
+        <ul class="flex items-center gap-6 mt-px">
+            <li>
+                <a href="/" class="text-gray-700 hover:text-blue-600 transition text-xl">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a  class="Button text-gray-700 hover:text-blue-600 transition text-xl cursor-pointer">
+                    Tambah Todo
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+<div class="mx-auto mt-10 max-w-7xl rounded-2xl bg-white p-6 shadow-lg">
+
+    <!-- Header -->
+    <div class="mb-6 flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                To Do List
+            </h1>
+            <p class="mt-1 text-gray-500">
+                Kelola semua tugasmu dengan mudah.
+            </p>
+        </div>
+
+ 
+    </div>
+
+    <!-- Search -->
+    <div class="mb-6">
+        <input
+            type="text"
+            placeholder="Cari todo..."
+            class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto rounded-xl border border-gray-200">
+
+        <table class="min-w-full">
+
+            <thead class="bg-gray-100">
+
+                <tr>
+
+                    <th class="px-5 py-4 text-left text-sm font-semibold text-gray-600">
+                        No
+                    </th>
+
+                    <th class="px-5 py-4 text-left text-sm font-semibold text-gray-600">
+                        Judul
+                    </th>
+                    <th class="px-5 py-4 text-left text-sm font-semibold text-gray-600">
+                        Description
+                    </th>
+
+                    <th class="px-5 py-4 text-left text-sm font-semibold text-gray-600">
+                        Prioritas
+                    </th>
+
+                    <th class="px-5 py-4 text-left text-sm font-semibold text-gray-600">
+                        Deadline
+                    </th>
+
+                    <th class="px-5 py-4 text-center text-sm font-semibold text-gray-600">
+                        Status
+                    </th>
+
+                    <th class="px-5 py-4 text-center text-sm font-semibold text-gray-600">
+                        Aksi
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+
+               
+
+               
+
+
+
+
+                          <% result.forEach(element => { %>
+                                 <% const {id,taskname, description, deadline, priority, status} = element %>
+                    <tr class="hover:bg-gray-50">
+
+                    <td class="px-5 py-4"><%= id %></td>
+
+                    <td class="px-5 py-4 font-medium text-gray-700">
+                       <%= taskname %>
+                    </td>
+                    <td>
+                          <%= description %>
+                    </td>
+
+                    <td class="px-5 py-4">
+                        <span class="rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-600">
+                           <%= priority %>
+                        </span>
+                    </td>
+
+                    <td class="px-5 py-4 text-gray-600">
+                        <%= deadline %>
+                    </td>
+
+                    <td class="px-5 py-4 text-center">
+                        <span class="rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-700">
+                           <%= status %>
+                        </span>
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        <div class="flex justify-center gap-2">
+
+
+
+                            <button
+                                class="EditTodo rounded-lg bg-yellow-500 px-3 py-2 text-sm text-white hover:bg-yellow-600" data-id="<%= id %>" >
+                                Edit
+                            </button>
+
+                            <button
+                                class="deleteButton rounded-lg bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600" onclick="Deletefunction('<%=id%>')">
+                                Hapus
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+            
+                           <% }) %>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div id="TambahTodo" class="w-full h-full fixed top-0 justify-center items-center flex left-full transition-transform duration-300 ease-in-out">
+     <div class="w-2/3 h-max bg-white rounded-2xl shadow-2xl">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 flex flex-row justify-between items-center">
+        <div class="left h-15">
+        <h1 class="text-3xl font-bold text-white">📝 Create New Task</h1>
+        <p class="text-blue-100 mt-1">
+            Tambahkan tugas baru agar aktivitasmu lebih teratur.
+        </p>
+        </div>
+        <div class="right h-15 ">
+            <h1 class="buttonClose cursor-pointer hover:text-red-600">CLOSE</h1>
+        </div>
+    
+    </div>
+
+    <!-- Form -->
+    <form class="Form p-8 space-y-6">
+
+        <!-- Task -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Task Name
+            </label>
+
+            <input
+                type="text"
+                placeholder="Masukkan nama tugas..."
+                class="Input w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Description
+            </label>
+
+            <textarea
+                rows="4"
+                placeholder="Deskripsi tugas..."
+                class="Input w-full px-4 py-3 border border-gray-300 rounded-xl resize-none outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"></textarea>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-2 gap-5">
+
+            <!-- Date -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Deadline
+                </label>
+
+                <input
+                    type="date"
+                    class="Input w-full px-4 py-3 box-border border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+            </div>
+ 
+            <!-- Priority -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Priority
+                </label>
+
+                <select
+                    class="Input w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+                     <option value="" disabled selected hidden>Pilih salah satu</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+
+                </select>
+            </div>
+
+        </div>
+
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Status
+            </label>
+
+            <select
+                class="Input w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+                <option value="" disabled selected hidden>Pilih salah satu...</option>
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+
+            </select>
+        </div>
+
+        
+        <div class="flex justify-end gap-4 pt-3">
+
+            <button
+                type="reset"
+                class="px-6 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
+                Reset
+            </button>
+
+            <button
+                type="button"
+                onclick="sendTo()"
+                class="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl">
+                + Add Task
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+</div>
+
+
+
+ <!-- Edit Todo -->
+
+<div id="EditTodo" class="w-full h-full fixed top-0 justify-center items-center flex left-full transition-transform duration-300 ease-in-out">
+     <div class="w-2/3 h-max bg-white rounded-2xl shadow-2xl">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 flex flex-row justify-between items-center">
+        <div class="left h-15">
+        <h1 class="text-3xl font-bold text-white">📝 Create New Task</h1>
+        <p class="text-blue-100 mt-1">
+            Tambahkan tugas baru agar aktivitasmu lebih teratur.
+        </p>
+        </div>
+        <div class="right h-15 ">
+            <h1 class="buttonCloseedit cursor-pointer hover:text-red-600">CLOSE</h1>
+        </div>
+    
+    </div>
+
+    <!-- Form -->
+    <form class="Form p-8 space-y-6">
+
+        <!-- Task -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Task Name
+            </label>
+
+            <input
+                type="text"
+                placeholder="Masukkan nama tugas..."
+                class="Input2 w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Description
+            </label>
+
+            <textarea
+                rows="4"
+                placeholder="Deskripsi tugas..."
+                class="Input2 w-full px-4 py-3 border border-gray-300 rounded-xl resize-none outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition"></textarea>
+        </div>
+
+        <!-- Grid -->
+        <div class="grid grid-cols-2 gap-5">
+
+            <!-- Date -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Deadline
+                </label>
+
+                <input
+                    type="date"
+                    class="Input2 w-full px-4 py-3 box-border border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+            </div>
+ 
+            <!-- Priority -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Priority
+                </label>
+
+                <select
+                    class="Input2 w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+                     <option value="" disabled selected hidden>Pilih salah satu</option>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+
+                </select>
+            </div>
+
+        </div>
+
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                Status
+            </label>
+
+            <select
+                class="Input2 w-full px-4 py-3 border border-gray-300 rounded-xl outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition">
+                <option value="" disabled selected hidden>Pilih salah satu...</option>
+                <option>Pending</option>
+                <option>In Progress</option>
+                <option>Completed</option>
+
+            </select>
+        </div>
+
+        
+        <div class="flex justify-end gap-4 pt-3">
+
+            <button
+                type="reset"
+                class="px-6 py-3 rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
+                Reset
+            </button>
+
+            <button
+                type="button"
+                onclick="sendTo()"
+                class="buttonUpdate px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:scale-105 transition duration-300 shadow-lg hover:shadow-xl">
+                + Add Task
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+</div>
+
+<script>
+ let TambahTodo = document.querySelector("#TambahTodo");
+ const formEditTodo = document.querySelector("#EditTodo");
+ const buttonEditTodo = document.querySelectorAll(".EditTodo");
+ let Button = document.querySelector(".Button");
+ let buttonClose = document.querySelector(".buttonClose");
+ const buttonCloseedit = document.querySelector(".buttonCloseedit");
+ let Input = document.querySelectorAll(".Input");
+ let Input2 = document.querySelectorAll(".Input2");
+ const buttonDelete = document.querySelector(".deleteButton");
+ const Form = document.querySelector('.Form');
+ const buttonUpdate = document.querySelector(".buttonUpdate");
+
+
+
+
+    
+    Button.addEventListener("click", () => {
+        if (TambahTodo.style.left = "100%") {
+            TambahTodo.style.left = "0"
+        } 
+    })
+
+    buttonClose.addEventListener("click", () => {
+        if (TambahTodo.style.left = "0") {
+            TambahTodo.style.left = "100%";
+        }
+    })
+
+
+   async function sendTo() {
+      const [taskname,description,deadline,priority,status] = Input;
+      if (taskname.value == "" || description.value == "" || deadline.value == "" || priority.value == ""|| status.value == "") {
+        console.log("harap di isi semua")
+      } else {
+          await fetchFunction(taskname.value,description.value,deadline.value,priority.value,status.value)
+      }
+
+   }
+
+
+   async function fetchFunction(taskname,description,deadline,priority,status) {
+  
+
+    const dataInput = {
+        taskname,
+        description,
+        deadline,
+        priority,
+        status,
+    }
+
+
+    try {
+        const response = await fetch('http://localhost:3000/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(dataInput)
+        })
+
+ 
+    if (response.ok) {
+        alert("data berhasil di masukkan")
+        Form.reset();
+        location.reload();
+
+    }
+      
+  
+
+    } catch (error) {
+        console.error('Terjadi kesalahan:', error);
+    }
+
+
+   }
+
+
+
+   async function Deletefunction(id) {
+    let kondisi = confirm("apakah kamu ingin menghapus data ini");
+    if(kondisi) {
+        await deleteProgress(id);
+    }
+
+   }
+
+
+   async function deleteProgress(id) {
+
+    const response = await fetch(`http://localhost:3000/todo/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (response) {
+         location.reload();
+    }
+
+   }
+
+
+
+
+
+
+buttonCloseedit.addEventListener("click", (e) => {
+    if  (formEditTodo.style.left = "0") {
+        formEditTodo.style.left = "100%";
+
+    
+    }
+})
+
+
+
+
+
+
+  buttonEditTodo.forEach((e,i) => {
+      
+       e.addEventListener('click', async (e) => {
+          if (formEditTodo.style.left = "100%") {
+             formEditTodo.style.left = "0";
+             const dataId = e.currentTarget.getAttribute('data-id');
+             await editTodoList(dataId)
+          }
+       })
+  })
+
+
+async function editTodoList(d) {
+
+  
+    const [taskname,description,deadline,priority,status] = Input2;
+    const [e] = JSON.parse('<%- JSON.stringify(result) %>').filter(e => Number(e.id) === Number(d));
+    const date = new Date(e.deadline);
+    const formattedDate = date.toISOString().split("T")[0];
+ 
+
+
+    taskname.value = e.taskname;
+    description.value = e.description;
+    deadline.value = formattedDate;
+    priority.value = e.priority;
+    status.value = e.status;
+ 
+  
+    buttonUpdate.addEventListener("click", async () => {
+         await requestEdit(taskname.value,description.value,deadline.value,priority.value,status.value, Number(d));
+    })
+
+   
+
+}
+
+
+
+async function requestEdit(taskname,description,deadline,priority,status,id) {
+   
+   
+       
+    
+       const dataUpdate = {
+        taskname,
+        description,
+        deadline,
+        priority,
+        status,
+        id,
+    }
+
+
+        try {
+        const response = await fetch('http://localhost:3000/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(dataUpdate)
+        })
+
+ 
+    if (response.ok) {
+        alert("data berhasil di masukkan")
+        Form.reset();
+        location.reload();
+
+    }
+      
+  
+
+    } catch (error) {
+        console.error('Terjadi kesalahan:', error);
+    }
+
+}
+
+</script>
+</body>
+</html>
